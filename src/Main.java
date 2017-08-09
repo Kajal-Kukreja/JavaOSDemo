@@ -1,10 +1,27 @@
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        loadHomePage("www.google.com");
+
+        //loadHomePage("www.google.com");
+
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(new File("application.properties")));
+            String address = properties.getProperty("server.address");
+            String port = properties.getProperty("server.port");
+            String contextPath = properties.getProperty("server.context-path");
+            String homePage = "home";
+            String url = address + ":" + port + contextPath + "/" + homePage;
+            System.out.println("Browser will open this url  " + url);
+            loadHomePage(url);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void loadHomePage(String url) {
@@ -22,9 +39,9 @@ public class Main {
             else if(operatingSystem.indexOf("nix") >=0 || operatingSystem.indexOf("nux") >=0) {
                 String[] browsers = { "epiphany", "firefox", "mozilla", "konqueror", "netscape", "opera", "links", "lynx" };
                 StringBuffer cmd = new StringBuffer();
-                for (int i=0; i < browsers.length - 1; i++)
-                    cmd.append( (i==0  ? "" : " || " ) + browsers[i] +" \"" + url + "\" ");
-
+                for (int i=0; i < browsers.length - 1; i++) {
+                    cmd.append((i == 0 ? "" : " || ") + browsers[i] + " \"" + url + "\" ");
+                }
                 runtime.exec(new String[]{"sh", "-c", cmd.toString()});
             }
             else {
