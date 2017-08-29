@@ -52,8 +52,8 @@ public class Main {
         }
 
         /*
-        //Solution 1 - Not supported on all platforms
 
+        //Solution 1 - Not supported on all platforms so we will not use this.
         try {
             Desktop desktop = Desktop.getDesktop();
             if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
